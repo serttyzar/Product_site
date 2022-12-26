@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Продукты</h1>
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="input-group">
+        <!--<div class="d-grid gap-2 d-md-block">-->
+        <div class="container px-0">
+            <div class="row justify-content-md-left px-0">
+                <div class="col-sm input-group pl0 ml0">
+                    {{ form.filter(class="form-control") }}
+                    <button class="btn btn-secondary" type="submit">
+                        <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="col-sm pt-1">
+                    {{ form.expiration(class="form-check-input", onChange="this.form.submit()") }}
+                    {{ form.expiration.label(class="form-check-label")  }}
+                    <!--<input class="form-check-input" type="checkbox" name="expiring" id="expiring">
+                    <label class="form-check-label" for="expiring">
+                        Срок годности
+                    </label>-->
+                </div>
+                <div class="col-sm-5">
+                </div>
+            </div>
+        </div>
+    </div>
+</form> <!-- Поиск -->
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Название</th>
+        <th scope="col">Вид</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Готово к употреблению</th>
+        <th scope="col">Дата изготовления</th>
+        <th scope="col">Срок годности</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for product in products %}
+    <tr class='{% if product.expiration_state == 2 %}table-danger{% elif product.expiration_state == 1 %}table-warning{% endif %}'>
+        <th scope="row">
+            {% if current_user.is_authenticated %}
+            <a href="/products/{{ product.id }}">
+                {{product.brand}}
+            </a>
+            {% else %}
+            {{product.brand}}
+            {% endif %}
+        </th>
+        <td>{{product.type.name}}</td>
+        <td>{{product.amount_text}}</td>
+        <td> {% if product.type.ready_to_use %}
+            Готово к употреблению
+            {% else %}
+            Не готово к употреблению
+            {% endif %}
+        </td>
+        <td>{{product.product_date}}</td>
+        <td>{{product.expiration_date}}</td>
+        <td>{% if current_user.is_authenticated %}
+            <a class="btn btn-sm" href="/product_delete/{{ product.id }}">
+                <svg class="bi bi-trash-fill text-danger" fill="currentColor" height="20" style="top: -2px"
+                     viewBox="0 0 16 16"
+                     width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1
+                                        1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0
+                                        0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1
+                                        .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0
+                                        0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"
+                          fill-rule="evenodd"/>
+                </svg>
+            </a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% if current_user.is_authenticated %}
+<div class="pt-3">
+    <a class="btn btn-primary" href="/new_product">Добавить продукт</a>
+    <a class="btn btn-primary" href="/recognize_product">Распознать продукт</a>
+</div>
+{% else %}
+<div class="pt-3">
+    Чтобы редактировать продукты, войдите в систему
+</div>
+{% endif %}
+{% endblock %}

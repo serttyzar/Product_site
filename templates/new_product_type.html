@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Новый вид продукта</h1>
+    {{message}}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.type.label }}<br>
+            {{ form.type(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.expiration.label }}<br>
+            {{ form.expiration(class="form-control") }}<br>
+        </p>
+        <p>{{ form.ready_to_use() }} {{ form.ready_to_use.label }}</p>
+        <hr>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <a class="link-primary" href="/product_types">Назад к списку видов продуктов</a>
+    </form>
+
+{% endblock %}

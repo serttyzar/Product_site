@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Новый рецепт</h1>
+    {{message}}
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.guide.label }}<br>
+            {{ form.guide(class="form-control", rows=10) }}<br>
+        </p>
+        <p>
+            {{ form.photo.label }}<br>
+            {{ form.photo(class="form-control") }}<br>
+        </p>
+        <hr>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <a class="link-primary" href="/recipes">Назад к списку рецептов</a>
+    </form>
+
+{% endblock %}

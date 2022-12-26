@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Рецепты</h1>
+<form action="" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="input-group">
+        <div class="form-outline">
+            {{ form.filter(class="form-control") }}
+        </div>
+        <button class="btn btn-secondary" type="submit">
+            <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16" width="16"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+            </svg>
+        </button>
+    </div>
+</form>
+<div class="container mt-3">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for recipe in recipes %}
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img alt="..." class="card-img-top" src="{{recipe.photo_path}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{recipe.name}}</h5>
+                    <p class="card-text">{{recipe.description}}</p>
+                    <a class="link-primary" href="/recipe_info/{{ recipe.id }}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% if current_user.is_authenticated %}
+<div class="pt-3">
+    <a class="btn btn-primary" href="/new_recipe">Добавить рецепт</a>
+</div>
+{% else %}
+<div class="pt-3">
+    Чтобы редактировать рецепты, войдите в систему
+</div>
+{% endif %}
+{% endblock %}

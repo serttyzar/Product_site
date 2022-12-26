@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Новый вид продукта для рецепта</h1>
+    <div>
+        {{message}}
+    </div>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.type_id.label}}<br>
+            {{ form.type_id(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.amount_text.label }}<br>
+            {{ form.amount_text(class="form-control") }}<br>
+        </p>
+        <hr>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <a class="link-primary" href="/product_info/{{ recipe.id }}">Назад к рецепту</a>
+    </form>
+
+{% endblock %}
